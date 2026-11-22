@@ -19,6 +19,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&amp;family=Noto+Sans+TC:wght@400;500;700&amp;display=swap" rel="stylesheet">
 
 <style>
+@font-face{font-family:"Charm Wide";src:url(photos/charm-wide.woff) format("woff");font-display:swap}
+
 /* ============================================================
   ② 設計變數：字型、顏色、背景圖片都在這裡
   圖片路徑是相對於 index.html，把圖放進 photos/ 資料夾即可
@@ -29,8 +31,8 @@
   /* 英文 → Lucida Calligraphy；中文 → 微軟正黑體
      原理：Lucida 沒有中文字，遇到中文會自動換用後面的正黑體。
      後面的 Apple Chancery / Pinyon Script 是「沒裝 Lucida 的裝置」的替代字型 */
-  --font-all: "Lucida Calligraphy", "Lucida Handwriting", "Apple Chancery", "Pinyon Script",
-              "Microsoft JhengHei", "微軟正黑體", "PingFang TC", "Noto Sans TC", sans-serif;
+  --font-all: "Charm Wide",
+              "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", sans-serif;
   --font-display: var(--font-all);   /* Johnny / Teresa 大名字 */
   --font-script:  var(--font-all);   /* & 符號 */
   --font-eyebrow: var(--font-all);   /* 「我們結婚了」 */
@@ -296,7 +298,7 @@ h1,h2,h3{text-wrap:balance}
     <div class="flower l" style="top: 30%; width: 30%; height: 300px; translate: 0px 271px;"></div>
     <div class="flower r" style="top: 30%; width: 30%; height: 300px; transform: scaleX(-1); translate: 0px 271px;"></div>
     <div class="hero-frame" style="translate: 0px 103px;"><div class="hf-clip"><img class="hf-photo" src="photos/framed.jpg" alt="Johnny &amp; Teresa"></div><img class="hf-frame" src="photos/frame.webp" alt="">
-      <p class="eyebrow" style="font-family: &quot;Lucida Calligraphy&quot;, &quot;Lucida Handwriting&quot;, &quot;Apple Chancery&quot;, &quot;Pinyon Script&quot;, &quot;Microsoft JhengHei&quot;, 微軟正黑體, &quot;PingFang TC&quot;, &quot;Noto Sans TC&quot;, sans-serif; font-size: 16px; font-weight: 400;">2026 We're Married！</p>
+      <p class="eyebrow" style="font-family: &quot;Charm Wide&quot;, &quot;Noto Sans TC&quot;, &quot;Microsoft JhengHei&quot;, &quot;PingFang TC&quot;, sans-serif; font-size: 16px; font-weight: 400;">2026 We're Married！</p>
     </div>
     <div class="names" style="translate: 0px 140px;"><span class="n">Johnny</span><span class="n">Teresa</span></div>
   </header>
@@ -309,9 +311,9 @@ h1,h2,h3{text-wrap:balance}
       <div style="translate: 53px;"><b data-cx style="translate: -53px -134px; font-size: 22px; font-weight: 400; color: rgb(210, 152, 152);">Teresa</b></div>
     </div>
     <div class="couple" style="translate: 0px 80px;">
-      <h3 style="font-size: 40px; translate: 0px -6px; font-family: &quot;Lucida Calligraphy&quot;, &quot;Lucida Handwriting&quot;, &quot;Apple Chancery&quot;, &quot;Pinyon Script&quot;, &quot;Microsoft JhengHei&quot;, 微軟正黑體, &quot;PingFang TC&quot;, &quot;Noto Sans TC&quot;, sans-serif;">陳彥勳</h3><small style="translate: 0px -87px; font-size: 12px;">新郎 Groom</small>
+      <h3 style="font-size: 40px; translate: 0px -6px; font-family: &quot;Charm Wide&quot;, &quot;Noto Sans TC&quot;, &quot;Microsoft JhengHei&quot;, &quot;PingFang TC&quot;, sans-serif;">陳彥勳</h3><small style="translate: 0px -87px; font-size: 12px;">新郎 Groom</small>
       <div class="amp" style="translate: 0px 31px;">&amp;</div>
-      <h3 style="font-family: &quot;Lucida Calligraphy&quot;, &quot;Lucida Handwriting&quot;, &quot;Apple Chancery&quot;, &quot;Pinyon Script&quot;, &quot;Microsoft JhengHei&quot;, 微軟正黑體, &quot;PingFang TC&quot;, &quot;Noto Sans TC&quot;, sans-serif; font-size: 40px; translate: 0px 86px;">陳怡瑄</h3><small style="translate: 0px 5px; font-size: 12px;">新娘 Bride</small>
+      <h3 style="font-family: &quot;Charm Wide&quot;, &quot;Noto Sans TC&quot;, &quot;Microsoft JhengHei&quot;, &quot;PingFang TC&quot;, sans-serif; font-size: 40px; translate: 0px 86px;">陳怡瑄</h3><small style="translate: 0px 5px; font-size: 12px;">新娘 Bride</small>
     </div>
 
     
@@ -330,7 +332,7 @@ h1,h2,h3{text-wrap:balance}
     <div class="flower r" style="top:-10px;width:40%;height:150px"></div>
     <h2 style="margin-top: 56px; font-weight: 400; font-size: 22px; translate: 0px -109px;">Our Wedding Ceremony</h2>
     
-    <div class="stk" style="translate: 0px -63px;"><div class="soft" style="font-size: 14px; font-weight: 600; font-family: &quot;Lucida Calligraphy&quot;, &quot;Lucida Handwriting&quot;, &quot;Apple Chancery&quot;, &quot;Pinyon Script&quot;, &quot;Microsoft JhengHei&quot;, 微軟正黑體, &quot;PingFang TC&quot;, &quot;Noto Sans TC&quot;, sans-serif;">12/20 星期日 中午 12:00 </div><div class="sub">Sun. at 12:00 PM</div></div>
+    <div class="stk" style="translate: 0px -63px;"><div class="soft" style="font-size: 14px; font-weight: 600; font-family: &quot;Charm Wide&quot;, &quot;Noto Sans TC&quot;, &quot;Microsoft JhengHei&quot;, &quot;PingFang TC&quot;, sans-serif;">12/20 星期日 中午 12:00 </div><div class="sub">Sun. at 12:00 PM</div></div>
     <div class="dateblock" style="translate: 0px -42px;">
       <img class="dorn dorn-l" src="photos/metal-decor.webp" alt=""><img class="dorn dorn-r" src="photos/metal-decor.webp" alt=""><span class="big" style="translate: 1px -3px;">20</span><span class="vr"></span><span class="my"><span>Dec.</span><span>2026</span></span></div>
     <div class="lunar soft" style="translate: 0px -40px;">(農曆丙午年冬月十二)</div>
