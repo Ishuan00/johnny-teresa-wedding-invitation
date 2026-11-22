@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Johnny &amp; Teresa 的婚禮</title>
+<meta property="og:title" content="Johnny &amp; Teresa 的婚禮">
+<meta property="og:description" content="敬邀 您蒞臨 Johnny &amp; Teresa 的婚禮｜2026年12月20日星期日｜台北君品酒店">
+<meta property="og:image" content="photos/og.jpg">
+
+<!-- ============================================================
+  ① 字型：想換字型，只要改這一行的 Google Fonts 連結，
+     再去下面 :root 裡改對應的 --font-xxx 名稱。
+     到 https://fonts.google.com 找字型 → Get embed code → 貼 <link>
+     中文推薦：Noto Serif TC、Noto Sans TC、Zen Old Mincho、
+              LXGW WenKai TC、Cactus Classical Serif、Chocolate Classical Sans
+============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&amp;family=Noto+Sans+TC:wght@400;500;700&amp;display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+  ② 設計變數：字型、顏色、背景圖片都在這裡
+  圖片路徑是相對於 index.html，把圖放進 photos/ 資料夾即可
+  圖片不存在時會自動退回純色背景，不會壞版
+============================================================ */
+:root{
+  /* 字型（左邊是主字型，後面是備援） */
+  /* 英文 → Lucida Calligraphy；中文 → 微軟正黑體
+     原理：Lucida 沒有中文字，遇到中文會自動換用後面的正黑體。
+     後面的 Apple Chancery / Pinyon Script 是「沒裝 Lucida 的裝置」的替代字型 */
+  --font-all: "Lucida Calligraphy", "Lucida Handwriting", "Apple Chancery", "Pinyon Script",
+              "Microsoft JhengHei", "微軟正黑體", "PingFang TC", "Noto Sans TC", sans-serif;
+  --font-display: var(--font-all);   /* Johnny / Teresa 大名字 */
+  --font-script:  var(--font-all);   /* & 符號 */
+  --font-eyebrow: var(--font-all);   /* 「我們結婚了」 */
+  --font-name-cn: var(--font-all);   /* 陳彥勳／陳怡瑄 */
+  --font-title:   var(--font-all);   /* 各區塊標題 */
+  --font-body:    var(--font-all);   /* 內文、日期 */
+  --font-ui:      var(--font-all);   /* 信封封面、按鈕 */
+
+  /* 顏色 */
+  --bg:    #2b0303;   /* 底色 */
+  --text:  #ffefd6;   /* 一般文字 */
+  --gold:  #ffdfaf;   /* 標題、金色 */
+  --btn-text: #511419;
+
+  /* 背景圖片（不想用就整行改成 none） */
+  --img-page-bg:     url("photos/bg-velvet.jpg");  /* 整頁底圖（紅色絨布）；原圖 bg_red_velvet.png 太大，網頁用縮小版 */
+  --img-page-bg-opacity: 1;   /* 1＝完全顯示底圖；調小會透出底色 --bg */
+  --img-envelope-bg: url("photos/envelope-bg.jpg");/* 信封封面背景 */
+  --img-hero:        url("photos/hero.jpg");      /* 頂部主照片 */
+  --img-hero-frame:  url("photos/frame.png");     /* 主照片外框（透明 PNG，可省略） */
+  --img-flower-l:    url("photos/flower-left.png");  /* 左右裝飾花（可省略） */
+  --img-flower-r:    url("photos/flower-right.png");
+  --img-divider:     url("photos/divider.png");   /* 金色分隔線（可省略） */
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto}
+body{background:#000;color:var(--text);font-family:var(--font-body);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.hidden{display:none!important}
+
+/* ---------- 信封封面 ---------- */
+#cover{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;overflow:hidden;
+  background:linear-gradient(to right,rgba(28,0,6,0.53) 0,rgba(28,0,6,0.4) 5%,rgba(28,0,6,0.28) 10%,rgba(28,0,6,0.18) 15%,rgba(28,0,6,0.12) 20%,rgba(28,0,6,0.05) 25%,rgba(28,0,6,0) 30%,rgba(28,0,6,0) 70%,rgba(28,0,6,0.02) 75%,rgba(28,0,6,0.08) 80%,rgba(28,0,6,0.17) 85%,rgba(28,0,6,0.24) 90%,rgba(28,0,6,0.32) 95%,rgba(28,0,6,0.41) 100%),var(--img-page-bg) center top/200% auto no-repeat,radial-gradient(ellipse at top,#3a0808,#2b0303 55%,#1e0202);   /* 紅色絨布（和內頁同一張底圖）；圖片載入前先顯示暗紅漸層 */
+  transition:transform 1.1s ease, opacity 1.1s ease}
+#cover.open{transform:translateY(-100%);opacity:0;pointer-events:none}
+.petal{position:absolute;top:-30px;color:var(--gold);opacity:0;animation:fall linear infinite}
+@keyframes fall{0%{transform:translateY(-8vh) rotate(0);opacity:0}10%{opacity:.5}100%{transform:translateY(110vh) translateX(var(--sway)) rotate(360deg);opacity:0}}
+.card{position:relative;z-index:2;width:min(340px,86vw);text-align:center;padding:110px 24px 38px;border:1px solid rgba(255,223,175,.18);border-radius:8px;
+  background:rgba(58,8,8,.55);box-shadow:0 25px 60px -12px rgba(0,0,0,.5),0 0 40px rgba(255,223,175,.15)}
+.seal{position:absolute;left:50%;top:50px;width:56px;height:56px;border-radius:50%;transform:translate(-50%,-50%);
+  background:radial-gradient(circle at 30% 30%,#ffdfaf,#e1c191);display:grid;place-items:center;animation:pulse 2s ease-in-out infinite}
+.seal svg{width:28px;height:28px;fill:var(--btn-text)}
+@keyframes pulse{50%{transform:translate(-50%,-50%) scale(1.06)}}
+.card h1{font-weight:400;color:var(--gold);font-family:var(--font-display);font-size:34px;line-height:1.2;margin-bottom:8px}
+.card h1 .amp{display:block;font-family:var(--font-script);font-size:26px;line-height:1}
+.card .date,.card .invite{font-family:var(--font-ui);color:rgba(255,239,214,.85);font-size:18px;margin:10px 0}
+.btn{display:inline-block;margin-top:14px;padding:10px 32px;border:0;border-radius:99px;cursor:pointer;font:600 18px var(--font-ui);
+  background:var(--gold);color:var(--btn-text);box-shadow:0 4px 14px rgba(255,223,175,.35)}
+
+/* ---------- 主頁面 ---------- */
+#invite{position:relative;width:100%;max-width:480px;margin:0 auto;background:var(--bg);overflow:hidden;isolation:isolate}
+@media(min-width:768px){#invite{max-width:900px;border:1px solid rgba(255,223,175,.2)}}
+#invite::before{content:"";position:absolute;inset:0;z-index:-3;background:var(--img-page-bg) center top/cover no-repeat;opacity:var(--img-page-bg-opacity);pointer-events:none}
+/* 左右兩側的暗暈（深紅色，不是純黑）：最外側最深，往內約 30% 處消失；想更暗／更亮：改各個 rgba 最後一個數字；想換顏色：改前三個數字（目前是很深的暗紅 28,0,6） */
+#invite::after{content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;
+  background:linear-gradient(to right,rgba(28,0,6,0.53) 0,rgba(28,0,6,0.4) 5%,rgba(28,0,6,0.28) 10%,rgba(28,0,6,0.18) 15%,rgba(28,0,6,0.12) 20%,rgba(28,0,6,0.05) 25%,rgba(28,0,6,0) 30%,
+    rgba(28,0,6,0) 70%,rgba(28,0,6,0.02) 75%,rgba(28,0,6,0.08) 80%,rgba(28,0,6,0.17) 85%,rgba(28,0,6,0.24) 90%,rgba(28,0,6,0.32) 95%,rgba(28,0,6,0.41) 100%)}
+section{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:28px 24px;gap:14px}
+.wrap{width:100%;max-width:420px}
+h2{font-family:var(--font-title);font-weight:700;color:var(--gold);font-size:20px;letter-spacing:.08em}
+.divider{width:74%;max-width:309px;height:26px;background:var(--img-divider) center/contain no-repeat;
+  border-bottom:1px solid rgba(255,223,175,.35)}  /* 沒有 divider 圖時顯示細金線 */
+.gold{color:var(--gold)} .soft{color:var(--text)}
+
+/* 頂部主視覺 */
+header.hero{padding-top:0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
+.eyebrow{font-family:var(--font-eyebrow);font-weight:600;color:var(--gold);letter-spacing:.14em;font-size:13px}
+.photo-frame{display:block;width:min(380px,88%);height:auto;margin:14px auto 0;box-shadow:0 8px 28px rgba(0,0,0,.45)}
+.photo-frame .photo{position:absolute;left:25.8%;top:11%;width:47.6%;height:76.5%;background:var(--img-hero) center/cover no-repeat,#3a0808;box-shadow:2px 2px 4px rgba(0,0,0,.25)}
+.photo-frame .frame{position:absolute;inset:0;background:var(--img-hero-frame) center/100% 100% no-repeat}
+/* 沒有外框圖時，用金邊代替 */
+.photo-frame .photo{outline:2px solid rgba(255,223,175,.6);outline-offset:6px}
+.names{position:relative;margin-top:26px;display:flex;flex-direction:column;align-items:center;width:100%;gap:18px}
+.names .n{font-family:var(--font-display);font-size:42px;line-height:1.1;color:var(--gold);white-space:nowrap}
+.names::before{content:"&";position:absolute;left:50%;top:50%;transform:translate(-50%,-62%);font-family:var(--font-script);font-size:100px;color:rgba(255,239,214,.2);pointer-events:none}
+
+.flower{position:absolute;pointer-events:none;background:center/contain no-repeat;filter:drop-shadow(4px 4px 2px rgba(0,0,0,.25))}
+.flower.l{left:-8%;background-image:var(--img-flower-l)} .flower.r{right:-8%;background-image:var(--img-flower-r)}
+
+/* 主視覺：照片墊在下面，相框（中間已挖空成透明）蓋在上面 */
+.hero-frame{position:relative;flex:none;width:100%;aspect-ratio:1916/2240;margin:0}   /* 滿版：寬度 = 頁面寬度 */
+.hero-frame .eyebrow{position:absolute;left:0;right:0;top:-9.3%;z-index:2;text-align:center}   /* 標題疊在上方暗紅區域 */
+.hero-frame img,.hero-frame .hf-clip{position:absolute}
+.hero-frame img{pointer-events:none}
+.hero-frame .hf-clip{left:22.86%;top:12.589%;width:54.071%;height:74.821%;overflow:hidden;pointer-events:none}   /* 照片的可視範圍 = 相框開口（稍大一圈藏在相框下） */
+.hero-frame .hf-photo{inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;transform:translate(var(--hx,-6.1%),var(--hy,-3.5%)) scale(var(--hz,1.24))}  /* 取景：放大 --hz、左右 --hx、上下 --hy（編輯模式面板可調） */
+.hero-frame .hf-frame{inset:0;width:100%;height:100%;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 5%,#000 95%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 5%,#000 95%,transparent 100%)}   /* 上下緣羽化 */
+
+/* 家長 / 新人 */
+.parents{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;width:100%;max-width:366px;font-size:13px}
+.parents .vr{width:1px;background:rgba(255,223,175,.5)}
+.parents b{display:block;color:var(--gold);font-weight:600;font-size:14px;margin-top:3px}
+.couple h3{font-family:var(--font-name-cn);font-weight:500;color:var(--gold);font-size:46px;line-height:1.3}
+.couple small{display:block;font-size:11px;letter-spacing:.14em}
+.couple .amp{font-family:var(--font-script);font-size:36px;color:var(--gold)}
+
+/* 日期區塊 */
+.event .label{color:var(--gold);font-size:17px}
+.event .time{font-size:13px;margin:4px 0}
+.dateblock{display:flex;align-items:center;justify-content:center;gap:14px;color:var(--gold)}
+.dateblock .big{font-size:54px;line-height:1}
+.dateblock .vr{width:1px;height:46px;background:var(--gold)}
+.dateblock .my{display:flex;flex-direction:column;align-items:flex-start;gap:4px;font-size:16px}
+.lunar{font-size:12px;letter-spacing:.12em}
+
+/* 相簿 */
+.gallery{display:grid;grid-template-columns:3fr 2fr;grid-template-rows:1fr 1fr .8fr;gap:8px;aspect-ratio:3/4;width:100%;max-width:334px}
+.gallery .g{position:relative;border-radius:12px;overflow:hidden;cursor:pointer;background:#3a0808 center/cover no-repeat;transition:transform .3s}
+.gallery .g:hover{transform:scale(1.02)}
+.gallery .g1{grid-area:1/1/3}.gallery .g2{grid-area:1/2}.gallery .g3{grid-area:2/2}
+.gallery .row{grid-area:3/1/auto/3;display:grid;grid-template-columns:2fr 3fr;gap:8px}
+.gallery .more{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.55);color:#fff;font-size:18px;font-weight:600}
+
+/* 相簿：照片淡入、上浮、淡出 */
+.stage{position:relative;width:calc(100% + 48px);margin:0 -24px;max-width:none;height:760px;overflow:hidden;
+  -webkit-mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent);mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent)}
+.float{position:absolute;bottom:-25%;aspect-ratio:671/966;cursor:pointer;opacity:0;perspective:900px;animation:rise var(--dur) linear forwards;will-change:transform,opacity}
+.float .fi{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry0,0deg));animation:spin var(--dur) cubic-bezier(.45,0,.55,1) forwards}   /* 整段上升都在慢慢轉（像落葉） */
+.float .ff,.float .fb{position:absolute;inset:0;border-radius:10px;border:3px solid rgba(255,223,175,.85);box-shadow:0 8px 22px rgba(0,0,0,.5);backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#3a0808 center/cover no-repeat}
+.float .fb{transform:rotateY(180deg);background-image:url("photos/cardback.jpg")}   /* 牌背圖 */
+@keyframes spin{from{transform:rotateX(var(--rx,0deg)) rotateY(var(--ry0,0deg))}to{transform:rotateX(var(--rx,0deg)) rotateY(var(--ry1,0deg))}}   /* ry0 → ry1：起點與終點的角度（0°＝牌面、180°＝牌背） */
+@keyframes rise{
+  0%  {transform:translate(0,0) scale(.88);opacity:0}
+  15% {opacity:1}
+  75% {opacity:1}
+  100%{transform:translate(var(--dx),calc(var(--rise,700px) * -1)) scale(1.05);opacity:0}}
+
+/* 「窗口」：把某個區塊挖空，後方圖片固定不動（視差），只有前方的文字隨捲動移動。
+   photos/window-dark.jpg ＝ photos/window.jpg 加上 42% 暗紅色（事先合成進照片，邊緣才不會有細線；換照片要重新合成） */
+.win{position:absolute;left:0;width:100%;top:0;height:0;z-index:-1;clip-path:inset(0);pointer-events:none}
+.win-bg{position:fixed;top:0;left:50%;width:min(100vw,480px);height:100vh;height:100lvh;max-width:none;transform:translateX(-50%);object-fit:cover;object-position:50% 62%}   /* object-position：照片取景（左右% 上下%） */
+@media(min-width:768px){.win-bg{width:min(100vw,900px)}}
+
+/* 文字浮現：捲動到的時候，每一行字交錯「從下方向上位移到定點」並淡入。
+   位移用 top／margin-top，不碰 transform，所以不會和文字方塊的置中、你設定的位置與縮放互相衝突 */
+.rv{opacity:0;transition:opacity calc(var(--rv-d,.9s) * .7) ease-out,top var(--rv-d,.9s) cubic-bezier(.16,1,.3,1),margin-top var(--rv-d,.9s) cubic-bezier(.16,1,.3,1)}
+.rv.rv-s{position:relative;top:var(--rv-y,24px)}       /* 一般排版中的文字 */
+.rv.rv-a{margin-top:var(--rv-y,24px)}                  /* 已經是絕對定位的（文字方塊、相框上的標題） */
+.rv.rv-in{opacity:1}
+.rv.rv-s.rv-in{top:0}
+.rv.rv-a.rv-in{margin-top:0}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transition:none}.rv.rv-s{top:0}.rv.rv-a{margin-top:0}}
+
+/* 時間卡片：兩個等大的細線圓角框（賓客迎接／開席），文字在框內置中 */
+.timecards{display:flex;justify-content:center;align-items:stretch;gap:16px;width:100%;margin-top:8px}
+.tcard{flex:1 1 0;max-width:150px;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px 8px;text-align:center;border:1px solid rgba(255,223,175,.5);border-radius:16px}
+.tcard .tc-l,.tcard .tc-e{font-size:13px}
+.tcard .tc-t{font-size:22px;font-weight:600;color:var(--gold);margin-top:4px}
+
+/* Little Reminder：三個叮嚀項目（標題＋說明）與結語 */
+.remind{width:calc((100% + 48px) * .7);max-width:340px;display:flex;flex-direction:column;gap:24px;margin-top:12px;text-align:center}
+.remind .ri{display:flex;flex-direction:column;align-items:center;gap:8px}
+.remind .rt{font-size:15px;font-weight:600;color:var(--gold)}
+.remind .rb{font-size:13.5px;line-height:1.85;text-wrap:pretty}
+.remind .rc{font-size:14px;color:var(--gold);margin-top:22px;white-space:pre-line}   /* 結語＋logo＋Sincerely 整塊的位置：想再往下，把 margin-top 加大；頁面底部留白同步在 fitPage 裡減少（m + 64），頁面總高度不變 */
+
+/* 邊緣裝飾（花）：位置跟著指定的標題／時間軸走；圖寬 ≈ 頁面寬度的 49%，一部分切出頁面外 */
+.deco{--dw:min(49vw,235px);position:absolute;width:var(--dw);aspect-ratio:815/1110;height:auto;z-index:-1;pointer-events:none;max-width:none}
+.deco-l{width:calc(var(--dw) * 1.17);left:calc(var(--dw) * -0.683)}   /* 玫瑰大小：放大倍率 1.17（新圖的玫瑰比舊圖小 15%）；往左切出去的比例：想看到更多左邊的花，把 left 的負數改小 */
+.deco-r{right:calc(var(--dw) * -.37)}   /* 往右切出去的比例（想往左移：改小，例如 .3；往右移：改大） */
+
+/* 日期兩側的金屬裝飾框：左邊用原圖、右邊鏡像；中心各離日期區塊中心約 90px，高 58px，垂直置中 */
+.dateblock{position:relative}
+.dorn{position:absolute;top:50%;height:58px;width:auto;max-width:none;transform:translateY(-50%);pointer-events:none}
+.dorn-l{right:calc(50% + 77px)}                                   /* 內側邊緣離中心 77px（想靠近／遠離日期：改這個數字） */
+.dorn-r{left:calc(50% + 77px);transform:translateY(-50%) scaleX(-1)}
+
+/* 頁面最後面的大 logo */
+.logo{display:block;width:min(58vw,250px);height:auto;margin:40px auto 10px}
+.sincerely{display:block;width:min(60vw,256px);height:auto;margin:0 auto 32px}   /* logo 下方的 Sincerely（原圖是橫躺的，已事先往左轉 90°） */
+
+/* ===== 電腦版（視窗寬度 ≥ 768px）專用的微調：手機版不受影響 ===== */
+@media (min-width:768px){
+  /* 「2026 We're Married！」：手機上是「相框圖高度的 -9.3%」，電腦上圖變得很高（約 1050px），同樣的百分比會貼到頁面頂端；
+     改成「頁面頂端與相框裝飾上緣的正中間」：相框裝飾上緣約在圖高的 8.4% 處，圖本身往下位移了 103px */
+  .hero-frame .eyebrow{top:calc(4.2% - 61.5px)}
+}
+
+/* 倒數、月曆 */
+.countdown{font-size:19px;font-weight:600}
+.cal{width:100%;max-width:300px;color:var(--gold)}
+.cal .mo{padding:10px;border-bottom:1px solid rgba(255,223,175,.27);font-size:19px}
+.cal .grid{display:grid;grid-template-columns:repeat(7,1fr);font-size:12px}
+.cal .dow{padding:6px 0;opacity:.6;border-bottom:2px solid var(--gold);font-size:11px}
+.cal .d{height:32px;display:grid;place-items:center}
+.cal .d.on{position:relative;font-weight:700;color:#333}
+.cal .d.on::before{content:"♥";position:absolute;font-size:34px;color:var(--gold);z-index:0}
+.cal .d.on span{position:relative;z-index:1;font-size:11px}
+.link{font-size:14px;text-decoration:underline;text-underline-offset:4px;color:var(--gold)}
+
+/* 地圖 */
+iframe.map{width:100%;max-width:338px;height:268px;border:1px solid var(--gold);border-radius:15px}
+
+/* Dress code */
+.colors{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.colors i{width:40px;height:40px;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.4);border:1.5px solid rgba(255,223,175,.19)}
+
+/* 流程 */
+.timeline{list-style:none;display:grid;grid-template-columns:1fr 16px 1fr;column-gap:24px;row-gap:0;grid-auto-rows:minmax(60px,auto);align-items:center;width:100%;max-width:460px;padding:12px 0;margin-bottom:-28px}   /* 每列至少 60px、等高；margin-bottom 抵銷變高的 28px，下面的排版位置不變 */
+.timeline .t{text-align:right;color:var(--gold);font-size:16px}
+.timeline .dot{position:relative;align-self:stretch;display:flex;justify-content:center;align-items:center}
+.timeline .dot::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(255,223,175,.53)}
+.timeline li:first-child .dot::before{top:50%} .timeline li:last-child .dot::before{bottom:50%}
+.timeline .dot i{position:relative;width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 2px rgba(255,223,175,.13)}
+.timeline .e{text-align:left;color:var(--gold);font-size:14px;white-space:pre-line}
+
+/* 留言 */
+form{width:100%;max-width:300px;display:flex;flex-direction:column;gap:12px}
+input,textarea{width:100%;padding:12px 14px;border:1px solid var(--gold);border-radius:6px;background:transparent;color:var(--text);font:14px var(--font-ui)}
+textarea{resize:none}
+::placeholder{color:rgba(255,239,214,.55)}
+form .btn{align-self:flex-end;margin:0;padding:8px 24px;font-size:14px}
+.foot{font-size:12px;color:var(--gold);padding-bottom:70px;font-family:var(--font-ui)}
+
+/* 燈箱 */
+#lightbox{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.88);display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+#lightbox.show{display:flex}
+#lightbox img{max-width:92vw;max-height:78vh;border-radius:14px;object-fit:contain}
+#lightbox button{position:absolute;background:none;border:0;color:#fff;font-size:34px;cursor:pointer;padding:12px}
+#lb-prev{left:6px}#lb-next{right:6px}#lb-close{top:6px;right:10px}
+#lb-count{position:absolute;top:14px;left:16px;color:#fff;font-size:14px;background:rgba(0,0,0,.4);padding:4px 12px;border-radius:99px}
+
+/* 需要換行的標題，平均分成幾行（不會把最後一個字單獨留在下一行） */
+h1,h2,h3{text-wrap:balance}
+
+/* 掛在某一行文字底下的小字（例如日期下方的英文）：跟著那一行走，不受頁面寬度影響 */
+.stk{position:relative}
+.sub{position:absolute;left:50%;top:calc(100% + 4px);transform:translateX(-50%);width:max-content;white-space:nowrap;color:var(--gold);font-size:14px;line-height:1.5}
+
+/* 自訂文字方塊（編輯模式的「＋ 新增文字方塊」） */
+.tb{position:absolute;left:50%;transform:translateX(-50%);width:max-content;max-width:88%;text-align:center;color:var(--gold);font-size:18px;line-height:1.5;white-space:pre-wrap;z-index:5}
+
+/* 音樂鈕 */
+#music{position:fixed;right:16px;bottom:56px;z-index:40;width:48px;height:48px;border-radius:50%;border:0;cursor:pointer;background:var(--gold);color:var(--btn-text);font-size:20px;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+#music.spin{animation:spin 3s linear infinite}
+#auto{position:fixed;right:16px;bottom:112px;z-index:40;width:48px;height:48px;border-radius:50%;border:1px solid var(--gold);cursor:pointer;
+  background:rgba(43,3,3,.8);color:var(--gold);font-size:18px;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+#auto.on{background:var(--gold);color:var(--btn-text)}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+
+<body>
+
+<!-- ======================= 信封封面 ======================= -->
+<div id="cover">
+  <div id="petals"></div>
+  <div class="card">
+    <div class="seal"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path></svg></div>
+    <h1><span>Johnny</span><span class="amp">&amp;</span><span>Teresa</span></h1>
+    <div class="date" id="cover-date">2026.12.20</div>
+    <div class="invite" style="color: rgb(210, 152, 152); font-size: 20px;">Sincere Invitation<br></div>
+    <button class="btn" id="open-btn">開啟喜帖</button>
+  </div>
+</div>
+
+<!-- ======================= 喜帖內容 ======================= -->
+<main id="invite" style="min-height: 4938px;">
+  <div class="win" aria-hidden="true"><img class="win-bg" src="photos/window-dark.jpg" alt=""></div>
+
+  <header class="hero">
+    <div class="flower l" style="top: 30%; width: 30%; height: 300px; translate: 0px 271px;"></div>
+    <div class="flower r" style="top: 30%; width: 30%; height: 300px; transform: scaleX(-1); translate: 0px 271px;"></div>
+    <div class="hero-frame" style="translate: 0px 103px;"><div class="hf-clip"><img class="hf-photo" src="photos/framed.jpg" alt="Johnny &amp; Teresa"></div><img class="hf-frame" src="photos/frame.webp" alt="">
+      <p class="eyebrow" style="font-family: &quot;Lucida Calligraphy&quot;, &quot;Lucida Handwriting&quot;, &quot;Apple Chancery&quot;, &quot;Pinyon Script&quot;, &quot;Microsoft JhengHei&quot;, 微軟正黑體, &quot;PingFang TC&quot;, &quot;Noto Sans TC&quot;, sans-serif; font-size: 16px; font-weight: 400;">2026 We're Married！</p>
+    </div>
+    <div class="names" style="translate: 0px 140px;"><span class="n">Johnny</span><span class="n">Teresa</span></div>
+  </header>
+
+  <section data-win style="translate: 0px 169px;">
+    <div class="divider" style="translate: 0px 54px;"></div>
+    
+    <div class="parents" style="translate: 0px 515px;">
+      <div><b data-cx style="translate: 118px -344px; font-size: 22px; font-weight: 400; color: rgb(210, 152, 152);">Johnny</b></div>
+      <div style="translate: 53px;"><b data-cx style="translate: -53px -134px; font-size: 22px; font-weight: 400; color: rgb(210, 152, 152);">Teresa</b></div>
+    </div>
+    <div class="couple" style="translate: 0px 80px;">
+      <h3 style="font-size: 40px; translate: 0px -6px; font-family: &quot;Lucida Calligraphy&quot;, &quot;Lucida Handwriting&quot;, &quot;Apple Chancery&quot;, &quot;Pinyon Script&quot;, &quot;Microsoft JhengHei&quot;, 微軟正黑體, &quot;PingFang TC&quot;, &quot;Noto Sans TC&quot;, sans-serif;">陳彥勳</h3><small style="translate: 0px -87px; font-size: 12px;">新郎 Groom</small>
+      <div class="amp" style="translate: 0px 31px;">&amp;</div>
+      <h3 style="font-family: &quot;Lucida Calligraphy&quot;, &quot;Lucida Handwriting&quot;, &quot;Apple Chancery&quot;, &quot;Pinyon Script&quot;, &quot;Microsoft JhengHei&quot;, 微軟正黑體, &quot;PingFang TC&quot;, &quot;Noto Sans TC&quot;, sans-serif; font-size: 40px; translate: 0px 86px;">陳怡瑄</h3><small style="translate: 0px 5px; font-size: 12px;">新娘 Bride</small>
+    </div>
+
+    
+    
+    <div class="divider" style="translate: -1px 196px;"></div>
+  </section>
+
+  <section style="translate: -1px 354px;">
+    
+    <div class="stage" id="stage" style="translate: 0px 41px;"></div>
+  </section>
+
+  <section style="translate: 0px 498px;">
+    <img class="deco deco-r" src="photos/decor-right.webp" alt="" data-anchor="#timeline" data-ay=".469">
+    <div class="flower l" style="top:-10px;width:40%;height:150px;transform:scaleX(-1)"></div>
+    <div class="flower r" style="top:-10px;width:40%;height:150px"></div>
+    <h2 style="margin-top: 56px; font-weight: 400; font-size: 22px; translate: 0px -109px;">Our Wedding Ceremony</h2>
+    
+    <div class="stk" style="translate: 0px -63px;"><div class="soft" style="font-size: 14px; font-weight: 600; font-family: &quot;Lucida Calligraphy&quot;, &quot;Lucida Handwriting&quot;, &quot;Apple Chancery&quot;, &quot;Pinyon Script&quot;, &quot;Microsoft JhengHei&quot;, 微軟正黑體, &quot;PingFang TC&quot;, &quot;Noto Sans TC&quot;, sans-serif;">12/20 星期日 中午 12:00 </div><div class="sub">Sun. at 12:00 PM</div></div>
+    <div class="dateblock" style="translate: 0px -42px;">
+      <img class="dorn dorn-l" src="photos/metal-decor.webp" alt=""><img class="dorn dorn-r" src="photos/metal-decor.webp" alt=""><span class="big" style="translate: 1px -3px;">20</span><span class="vr"></span><span class="my"><span>Dec.</span><span>2026</span></span></div>
+    <div class="lunar soft" style="translate: 0px -40px;">(農曆丙午年冬月十二)</div>
+    <div class="timecards" style="translate: 0px -29px;">
+      <div class="tcard"><div class="tc-l">賓客迎接</div><div class="tc-e">Guest Greeting</div><div class="tc-t">11 : 30</div></div>
+      <div class="tcard"><div class="tc-l">入席</div><div class="tc-e">Banquet</div><div class="tc-t">12 : 00</div></div>
+    </div>
+    
+    <div class="countdown" id="countdown" data-cx style="translate: 0px 303px;">--</div>
+    <div class="divider" style="translate: 0px 285px;"></div>
+    <div class="cal" id="cal" style="translate: 3px 315px;"></div>
+    <a class="link" id="gcal" target="_blank" rel="noopener" href="https://www.google.com/calendar/render?action=TEMPLATE&amp;text=%E9%99%B3%E5%BD%A5%E5%8B%B3%20%E2%99%A5%20%E9%99%B3%E6%80%A1%E7%91%84%20%E5%A9%9A%E7%A6%AE&amp;dates=20261220T040000Z/20261220T060000Z&amp;ctz=Asia/Taipei&amp;location=103%E8%87%BA%E5%8C%97%E5%B8%82%E5%A4%A7%E5%90%8C%E5%8D%80%E5%BB%BA%E6%98%8E%E9%87%8C%E6%89%BF%E5%BE%B7%E8%B7%AF%E4%B8%80%E6%AE%B53%E8%99%9F" style="translate: 0px 328px;">添加到日曆</a>
+  <ol class="timeline" id="timeline" style="translate: -52px -370px;">
+      <li style="display:contents"><span class="t">11:30</span><span class="dot"><i></i></span><span class="e">迎賓雞尾酒
+& 滷味叭噗車</span></li>
+      <li style="display:contents"><span class="t">12:00</span><span class="dot"><i></i></span><span class="e">入席</span></li>
+      <li style="display:contents"><span class="t">12:30</span><span class="dot"><i></i></span><span class="e">婚宴開始</span></li>
+      <li style="display:contents"><span class="t">15:30</span><span class="dot"><i></i></span><span class="e">期待下一次相見 &lt;3</span></li>
+    </ol><div class="divider" style="translate: 0px -357px;"></div></section>
+
+  <section style="translate: 0px 712px;">
+    <img class="deco deco-l" src="photos/decor-left.webp" alt="" data-anchor="#loc-title" data-ay="0.411"><h2 id="loc-title" style="margin-top: 56px; font-weight: 400; font-size: 22px; translate: -1px -154px;">Wedding Location</h2>
+    <h2 style="font-size: 17px; translate: -1px -121px; color: rgb(255, 239, 214);">台北君品酒店</h2><h2 style="font-size: 14px; translate: 0px -130px; font-weight: 400;">Palais de Chine</h2>
+    <div style="font-size: 13px; translate: 0px -119px; font-weight: 400;">103臺北市大同區建明里承德路一段3號</div><div style="font-size: 12px; translate: 0px -127px; font-weight: 400; color: rgb(255, 223, 175); text-wrap: balance;">No. 3, Section 1, Chengde Road, Datong District, Taipei 103</div>
+    <iframe class="map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=103%E8%87%BA%E5%8C%97%E5%B8%82%E5%A4%A7%E5%90%8C%E5%8D%80%E6%89%BF%E5%BE%B7%E8%B7%AF%E4%B8%80%E6%AE%B53%E8%99%9F&amp;output=embed" style="translate: 0px -101px;"></iframe>
+    <a class="link" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;destination=103%E8%87%BA%E5%8C%97%E5%B8%82%E5%A4%A7%E5%90%8C%E5%8D%80%E6%89%BF%E5%BE%B7%E8%B7%AF%E4%B8%80%E6%AE%B53%E8%99%9F" style="translate: 0px -93px;">➤ 路線導航</a>
+  </section>
+
+  <section style="font-size: 19px; translate: 0px 667px;">
+    <h2 style="font-weight: 400; font-size: 22px;">Dress Code</h2><div style="font-size: 14px; translate: 0px -7px;">宴會服裝</div>
+    <div class="colors">
+      <i style="background:#a32d2d"></i><i style="background:#ecb4b0"></i><i style="background:#deb992"></i><i style="background:#ffffff"></i><i style="background:#7a7e85"></i>
+    </div>
+  </section>
+
+  
+
+  <section style="translate: 0px 711px;">
+    <h2 style="font-weight: 400; font-size: 22px;">Little Reminder</h2><div style="font-size: 14px; translate: 0px -7px;">婚禮小叮嚀</div>
+    <div class="remind">
+      <div class="ri"><div class="rt">🚇 交通建議</div><div class="rb">12/20 適逢「台北馬拉松」交管，且停車場與京站共用（無保留車位），假日容易客滿，強烈建議搭乘捷運前來最方便喔！</div></div>
+      <div class="ri"><div class="rt">🅿️ 停車資訊</div><div class="rb">停車場入口位於市民大道（請認明「台北轉運站停車場」標誌），停放於 B4 或 B5 可搭酒店專屬電梯直達大廳。</div></div>
+      <div class="ri"><div class="rt">🥂 迎賓酒會</div><div class="rb">11:30 備有精緻的中西式點心與迎賓雞尾酒，歡迎大家提早來吃吃喝喝、聊天拍照！</div></div>
+      <div class="rc">期待當天見到大家
+一起享受美好的午宴時光！😊</div>
+    </div>
+    <img class="logo" src="photos/logo-cross.webp" alt="Johnny &amp; Teresa">
+    <img class="sincerely" src="photos/sincerely.webp" alt="Sincerely">
+  </section></main>
+
+<!-- 音樂 -->
+<audio id="bgm" loop="" preload="auto" src="beautiful-in-white-ft-canon-in-d-string-trio-cover-by-fourscore.mp3"></audio>
+<button id="music" class="hidden" aria-label="音樂">♪</button>
+<button id="auto" class="hidden" aria-label="自動捲動" title="自動捲動">⇩</button>
+
+<!-- 燈箱 -->
+<div id="lightbox" class="">
+  <span id="lb-count">17 / 30</span>
+  <button id="lb-close">✕</button><button id="lb-prev">‹</button><button id="lb-next">›</button>
+  <img id="lb-img" alt="">
+</div>
+
+<script>
+/* ============================================================
+  ③ 內容設定：文字、時間、照片清單
+============================================================ */
+const CONFIG = {
+  startAtTop: true,   // 每次重新整理都從最上面開始（false = 回到上次停留的位置）
+  eventISO: "2026-12-20T12:00:00+08:00",
+  calendar: { y:2026, m:12, day:20,
+              title:"陳彥勳 ♥ 陳怡瑄 婚禮",
+              startUTC:"20261220T040000Z", endUTC:"20261220T060000Z",
+              location:"103臺北市大同區建明里承德路一段3號" },
+  // 相簿：把照片依序命名 gallery-01.jpg … gallery-20.jpg 放進 photos/，或直接改這份清單
+  gallery: Array.from({length:30}, (_,i)=>`photos/gallery-${String(i+1).padStart(2,"0")}.jpg`),
+  // 自動捲動：打開信封後自動往下流動；訪客一碰螢幕/滾輪就暫停，按右側 ⇩ 可再啟動
+  // 相簿上浮動畫：interval=幾毫秒冒出一張；minDur/maxDur=每張上浮幾秒；minW/maxW=照片寬度(px)；
+  // holdMs=自動捲動到相簿時停留幾毫秒（0＝不停留，一路捲下去）；spinChance=有幾成的卡牌會像落葉一樣邊上升邊轉動翻面（0.65＝65%，其餘只是微微擺動）
+  float: { interval: 1000, minDur: 7, maxDur: 10, minW: 125, maxW: 195, holdMs: 0, spinChance: 0.65, height: 760 },
+  // 文字浮現：enabled=開關；stagger=同一個畫面裡，下一行比上一行晚幾毫秒開始（小於 duration 就會有「重疊」的感覺）；
+  //   title＝標題（新郎 Groom、各區塊標題…）：rise=從下方浮起幾 px、duration=幾毫秒浮完（快）
+  //   main ＝主要內容（陳彥勳、Johnny、日期…）：浮起距離較大、速度較慢
+  reveal: { enabled: true, stagger: 160, title: { rise: 22, duration: 520 }, main: { rise: 46, duration: 1300 } },
+  win: { pad: 36 },   // 「窗口」區塊（後方固定圖片）：文字區域上下各多留幾 px
+  autoScroll: { enabled: true, speed: 95, startDelay: 1500, slowZone: 0.5 }   // speed = 每秒幾像素（越小越慢）；slowZone = 經過撲克牌區域時的速度倍率（0.5＝一半，1＝不放慢）
+};
+
+/* ---------- 信封開啟 ---------- */
+/* 每次重新整理都從最上面開始（瀏覽器預設會回到上次停留的位置，這裡關掉它） */
+if (CONFIG.startAtTop !== false) {
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  window.scrollTo(0, 0);
+  addEventListener("load", () => window.scrollTo(0, 0));
+  addEventListener("pageshow", e => { if (e.persisted) window.scrollTo(0, 0) });   // 從「上一頁」回來也一樣
+}
+const $ = s => document.querySelector(s);
+const bgm = $("#bgm"), mbtn = $("#music");
+$("#open-btn").onclick = () => {
+  startFloat();
+  setTimeout(startReveal, 450);          // 信封滑開的同時，第一個畫面的文字依序浮現
+  $("#cover").classList.add("open");
+  mbtn.classList.remove("hidden");
+  bgm.play().then(()=>mbtn.classList.add("spin")).catch(()=>{});
+  setTimeout(()=>$("#cover").remove(), 1300);
+  $("#auto").classList.remove("hidden");
+  if (CONFIG.autoScroll.enabled) setTimeout(startAuto, CONFIG.autoScroll.startDelay);
+};
+
+/* 自動捲動：打開信封後自動往下流動，一直到頁面最底；只有「訪客自己捲動」才會停止 */
+const autoBtn = $("#auto"); let autoOn = false, rafId = 0, pos = 0, last = 0, holdUntil = 0;
+function step(t){
+  if (!autoOn) return;
+  if (t < holdUntil) { last = t; rafId = requestAnimationFrame(step); return }            // 停留中（例如相簿）：不捲動，但自動捲動仍然開著
+  if (Math.abs(window.scrollY - pos) > 4) pos = window.scrollY;                            // 被別的力量推開（例如瀏覽器自動調整）就重新對齊，不會卡住
+  pos += CONFIG.autoScroll.speed * stageFactor() * Math.min((t - last) / 1000, .1); last = t;             // 單格最多算 0.1 秒，切換分頁回來不會暴衝
+  window.scrollTo(0, pos);
+  if (Math.ceil(window.scrollY + innerHeight) >= document.documentElement.scrollHeight - 1) return stopAuto();   // 實際捲到最底才停
+  rafId = requestAnimationFrame(step);
+}
+/* 經過撲克牌區域：進入時漸漸放慢 → 在區域中間維持最慢 → 快結束時慢慢加快回原速（卡牌自己也在移動，兩者相加才不會太快） */
+function stageFactor(){
+  const k = CONFIG.autoScroll.slowZone ?? .5, st = document.getElementById("stage"); if (k >= 1 || !st) return 1;
+  const r = st.getBoundingClientRect(); if (r.height < 1) return 1;
+  const s = (innerHeight * .5 - r.top) / r.height;                 // 0＝視窗中線剛碰到區域頂端，1＝中線到了區域底端
+  const ss = (a, b, x) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t) };   // 平滑地從 0 變到 1
+  const slow = ss(-.35, 0, s) * (1 - ss(.55, 1.05, s));
+  return 1 - (1 - k) * slow;
+}
+function startAuto(){ if (autoOn) return; autoOn = true; pos = window.scrollY; last = performance.now(); holdUntil = 0; autoBtn.classList.add("on"); rafId = requestAnimationFrame(step) }
+function stopAuto(){ autoOn = false; cancelAnimationFrame(rafId); autoBtn.classList.remove("on") }
+autoBtn.onclick = () => autoOn ? stopAuto() : startAuto();
+/* 只有「訪客自己捲動」才停止：滾輪、手指滑動、捲動用的按鍵、拖曳捲軸（按其他鍵、點頁面、截圖都不會停） */
+const userStop = e => { if (autoOn && e.target !== autoBtn) stopAuto() };
+addEventListener("wheel", e => { if (Math.abs(e.deltaY) > 2 && !e.ctrlKey) userStop(e) }, { passive: true });
+addEventListener("touchmove", userStop, { passive: true });
+addEventListener("keydown", e => { if (["ArrowUp","ArrowDown","PageUp","PageDown","Home","End"," "].includes(e.key)) userStop(e) });
+addEventListener("pointerdown", e => { if (e.clientX >= document.documentElement.clientWidth) userStop(e) });
+mbtn.onclick = () => { if(bgm.paused){bgm.play();mbtn.classList.add("spin")}else{bgm.pause();mbtn.classList.remove("spin")} };
+
+/* 飄落的撲克牌花色（♠ ♥ ♦ ♣）*/
+const SUITS = ["♠\uFE0E","♥\uFE0E","♦\uFE0E","♣\uFE0E"];   // \uFE0E：強制用文字樣式顯示，這樣顏色才會套用（不會變成彩色表情符號）
+for(let i=0;i<16;i++){
+  const p=document.createElement("div"); p.className="petal"; p.textContent=SUITS[i%4];
+  p.style.cssText=`left:${Math.random()*100}%;font-size:${10+Math.random()*12}px;--sway:${(Math.random()-.5)*60}px;
+    animation-duration:${18+Math.random()*8}s;animation-delay:-${Math.random()*18}s;color:${["#ffdfaf","#8a1f26","#c39a5e","#ffefd6"][(i*3+(i>>2))%4]}`;   // 顏色與花色錯開，每種花色都會有不同的顏色
+  $("#petals").appendChild(p);
+}
+
+/* 相簿 + 燈箱 */
+const G = CONFIG.gallery; let cur = 0;
+
+/* 上浮動畫：按下「開啟喜帖」就開始，不管捲到哪裡；照片用完會重新洗牌，一直輪播 */
+const stage = $("#stage"), F = CONFIG.float, rnd = (a,b) => a + Math.random()*(b-a);
+let order = [], timer = 0, lane = 0, seen = false;
+if (F.height) stage.style.height = F.height + "px";   // 撲克牌區域的高度（px）
+new Image().src = "photos/cardback.jpg";   // 先載入牌背，翻面時才不會閃一下
+let lastPhoto = -1;
+function nextPhoto(){
+  if (!order.length) { order = G.map((_,i)=>i).sort(()=>Math.random()-.5); if (order.length > 1 && order[order.length-1] === lastPhoto) order.unshift(order.pop()) }   // 新一輪的第一張不要和上一張重複
+  return lastPhoto = order.pop();
+}
+function startFloat(){ if (!timer) { spawn(); timer = setInterval(spawn, F.interval) } }
+function spawn(){
+  const i = nextPhoto(), el = document.createElement("div"), w = rnd(F.minW, F.maxW);
+  el.className = "float"; el.dataset.i = i;
+  el.innerHTML = `<div class="fi"><div class="ff" style="background-image:url('${G[i]}')"></div><div class="fb"></div></div>`;
+  const fi = el.firstChild;
+  const W = stage.clientWidth, lanes = Math.max(3, Math.round(W / 200)), laneW = W / lanes, m = 26;   // 依寬度決定排數；m = 左右保留的邊（含旋轉時的角）
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  lane = (lane + 1 + (Math.random() < .4 ? 1 : 0)) % lanes;
+  const left = clamp(lane * laneW + (laneW - w) / 2 + rnd(-laneW * .25, laneW * .25), m, Math.max(m, W - w - m));
+  el.style.width = w + "px"; el.style.left = left + "px";
+  const dur = rnd(F.minDur, F.maxDur); el.style.setProperty("--dur", dur + "s");
+  el.style.setProperty("--rise", Math.round(stage.clientHeight + w * 1.7) + "px");   // 上升距離＝動畫區域高度＋卡牌高度，卡牌一定會升到頂端才消失
+  // 落葉般的轉動：整段上升過程慢慢繞垂直軸轉，每張的起點、方向、轉多少都不同（0°＝牌面、180°＝牌背）
+  const sign = Math.random() < .5 ? -1 : 1, kind = Math.random(), SP = F.spinChance ?? .65;
+  let a0, a1;
+  if (kind < SP * .34)      { a0 = rnd(-25, 25);  a1 = 180 + rnd(-25, 25) }                                 // 牌面 → 牌背
+  else if (kind < SP * .67) { a0 = 180 + rnd(-25, 25); a1 = (Math.random() < .5 ? 360 : 0) + rnd(-25, 25) } // 牌背 → 牌面
+  else if (kind < SP)       { a0 = Math.random() < .5 ? rnd(45, 135) : rnd(225, 315); a1 = a0 + sign * rnd(110, 230) }   // 一出現就帶著角度（正在翻的途中）
+  else                      { a0 = rnd(-16, 16); a1 = a0 + rnd(-14, 14) }                                   // 不翻面：只是微微擺動
+  fi.style.setProperty("--ry0", a0.toFixed(1) + "deg"); fi.style.setProperty("--ry1", a1.toFixed(1) + "deg");
+  fi.style.setProperty("--rx", rnd(-12, 12).toFixed(1) + "deg");                                           // 前後微微傾斜
+  el.style.setProperty("--dx", clamp(rnd(-35, 35), m - left, Math.max(m - left, W - w - m - left)) + "px");
+  el.addEventListener("animationend", e => { if (e.target === el) el.remove() });   // 只有上升動畫結束才移除（翻牌動畫結束不算）
+  stage.appendChild(el);
+}
+stage.onclick = e => { const f = e.target.closest(".float"); if(f) show(+f.dataset.i) };
+new IntersectionObserver(entries => {                                    // 自動捲動遇到相簿：暫停一下讓大家欣賞
+  entries.forEach(en => {
+    if (en.isIntersecting && en.intersectionRatio >= .6 && !seen) {
+      seen = true;
+      if (autoOn) holdUntil = performance.now() + F.holdMs;                  // 在相簿停留一下（自動捲動不會被取消）
+    }
+  });
+}, { threshold: [.6] }).observe(stage);
+
+/* 「窗口」：依區塊裡文字與分隔線的實際位置，決定窗口的上下範圍 */
+function fitWin() {
+  const invite = document.getElementById("invite"), w = document.querySelector(".win"), t = invite.querySelector("[data-win]"); if (!w || !t) return;
+  const ir = invite.getBoundingClientRect(); let top = Infinity, bot = -Infinity;
+  t.querySelectorAll("*").forEach(el => {
+    if (el.children.length || !(el.textContent.trim() || el.classList.contains("divider"))) return;
+    const r = el.getBoundingClientRect(); if (!r.width && !r.height) return;
+    top = Math.min(top, r.top); bot = Math.max(bot, r.bottom);
+  });
+  if (top === Infinity) return;
+  const pad = (CONFIG.win && CONFIG.win.pad) || 36;
+  const d = window.devicePixelRatio || 1, px = v => (Math.round(v * d) / d) + "px";               // 對齊到實際的螢幕像素
+  w.style.top = px(top - ir.top - pad); w.style.height = px(bot - top + pad * 2);
+}
+fitWin(); addEventListener("resize", fitWin); addEventListener("load", fitWin);
+if (document.fonts) document.fonts.ready.then(fitWin);
+if (window.ResizeObserver) new ResizeObserver(fitWin).observe(document.getElementById("invite"));
+
+/* 頁面高度：依內容最低處自動決定（不同螢幕寬度文字換行不同，高度也會跟著對） */
+function fitPage() {
+  if (document.getElementById("editbar")) return;                 // 編輯模式由編輯器自己處理
+  const inv = document.getElementById("invite"), ir = inv.getBoundingClientRect(); let m = 0;
+  inv.querySelectorAll("*").forEach(el => {
+    if (el.closest(".win,.float,#petals,#lightbox") || el.tagName === "BR") return;
+    const r = el.getBoundingClientRect(); if (!r.width || !r.height) return;
+    const off = el.classList.contains("rv") && !el.classList.contains("rv-in") ? (parseFloat(el.style.getPropertyValue("--rv-y")) || 0) : 0;   // 還沒浮現的文字先往下偏移了，不算進去
+    m = Math.max(m, r.bottom - off - ir.top);
+  });
+  const v = Math.ceil(m + 64);
+  if (Math.abs((parseFloat(inv.style.minHeight) || 0) - v) > 2) inv.style.minHeight = v + "px";
+}
+/* 邊緣裝飾：垂直位置 ＝ 指定標題（或時間軸）的中心，往上退「裝飾高度 × data-ay」 */
+function placeDecor() {
+  document.querySelectorAll(".deco[data-anchor]").forEach(img => {
+    const sec = img.parentElement, a = sec.querySelector(img.dataset.anchor); if (!a) return;
+    const ar = a.getBoundingClientRect(), sr = sec.getBoundingClientRect(), h = img.getBoundingClientRect().height; if (!h) return;
+    const off = a.classList.contains("rv") && !a.classList.contains("rv-in") ? (parseFloat(a.style.getPropertyValue("--rv-y")) || 0) : 0;   // 還沒浮現的文字先往下偏移了，不算進去
+    img.style.top = Math.round(ar.top - off + ar.height / 2 - sr.top - (parseFloat(img.dataset.ay) || .47) * h) + "px";
+  });
+}
+placeDecor(); addEventListener("load", placeDecor); addEventListener("resize", placeDecor);
+if (document.fonts) document.fonts.ready.then(placeDecor);
+fitPage(); addEventListener("load", fitPage); addEventListener("resize", fitPage);
+if (document.fonts) document.fonts.ready.then(fitPage);
+
+/* 自動置中：標了 data-cx 的元素，依實際量到的位置校正到頁面正中央（用位移調過位置的文字，在不同螢幕寬度下才不會偏） */
+function centerFix() {
+  if (document.getElementById("editbar")) return;                 // 編輯模式不自動動它
+  const inv = document.getElementById("invite"), ir = inv.getBoundingClientRect(), mid = ir.left + ir.width / 2;
+  inv.querySelectorAll("[data-cx]").forEach(el => {
+    const r = el.getBoundingClientRect(); if (!r.width) return;
+    const m = (el.style.translate || "").match(/-?[\d.]+/g) || [], x = parseFloat(m[0]) || 0, y = parseFloat(m[1]) || 0;
+    const dx = mid - (r.left + r.width / 2);
+    if (Math.abs(dx) > .3) el.style.translate = (x + dx).toFixed(2) + "px " + y + "px";
+  });
+}
+centerFix(); addEventListener("load", centerFix); addEventListener("resize", centerFix);
+if (document.fonts) document.fonts.ready.then(centerFix);
+
+/* 文字浮現：每一行字、分隔線、月曆、地圖、表單…捲動到的時候才依序淡入（編輯模式不啟用） */
+const REV = CONFIG.reveal || {};
+function markReveal() {
+  if (!REV.enabled) return;
+  const inv = document.getElementById("invite");
+  const units = ".cal,form,#wishes,iframe.map,.divider,.colors > i,.tcard,.deco,.dorn,.logo,.sincerely";
+  const T = REV.title || {}, M = REV.main || {};
+  inv.querySelectorAll("*").forEach(el => {
+    if (el.closest(".win,#stage,#petals,#lightbox,.float")) return;
+    const unit = el.matches(units);
+    const inUnit = el.parentElement && el.parentElement.closest(".cal,form,#wishes,.tcard");
+    const leaf = !unit && !inUnit && el.children.length === 0 && el.textContent.trim() && !/^(SCRIPT|STYLE|OPTION)$/.test(el.tagName);
+    if (!unit && !leaf) return;
+    const cs = getComputedStyle(el);
+    const isTitle = unit ? el.matches(".divider") : (/^(H1|H2|SMALL)$/.test(el.tagName) || el.matches(".eyebrow,.label") || parseFloat(cs.fontSize) <= 13);
+    const P = isTitle ? T : M;
+    el.classList.add("rv");
+    el.classList.add(/^(absolute|fixed)$/.test(cs.position) ? "rv-a" : "rv-s");
+    el.style.setProperty("--rv-y", (P.rise ?? (isTitle ? 14 : 30)) + "px");
+    el.style.setProperty("--rv-d", (P.duration ?? (isTitle ? 450 : 1100)) + "ms");
+  });
+}
+function startReveal() {
+  const els = [...document.querySelectorAll(".rv")]; if (!els.length) return;
+  const io = new IntersectionObserver(entries => {
+    entries.filter(e => e.isIntersecting)
+      .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top || a.boundingClientRect.left - b.boundingClientRect.left)
+      .forEach((e, i) => { e.target.style.transitionDelay = Math.min(i * (REV.stagger ?? 150), 1500) + "ms"; e.target.classList.add("rv-in"); io.unobserve(e.target) });
+  }, { rootMargin: "0px 0px -6% 0px", threshold: 0.15 });
+  const early = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("rv-in"); early.unobserve(e.target) } }), { rootMargin: "0px", threshold: 0 });
+  els.forEach(el => (el.classList.contains("deco") ? early : io).observe(el));   // 花朵裝飾：一碰到畫面下緣就先浮現，比時間軸、文字都早
+}
+markReveal();
+function show(i){ cur=(i+G.length)%G.length; $("#lb-img").src=G[cur]; $("#lb-count").textContent=`${cur+1} / ${G.length}`; $("#lightbox").classList.add("show") }
+$("#lb-prev").onclick=e=>{e.stopPropagation();show(cur-1)}; $("#lb-next").onclick=e=>{e.stopPropagation();show(cur+1)};
+$("#lb-close").onclick=()=>$("#lightbox").classList.remove("show");
+$("#lightbox").onclick=e=>{ if(e.target.id==="lightbox") $("#lightbox").classList.remove("show") };
+addEventListener("keydown",e=>{ if(!$("#lightbox").classList.contains("show"))return;
+  if(e.key==="Escape")$("#lightbox").classList.remove("show"); if(e.key==="ArrowLeft")show(cur-1); if(e.key==="ArrowRight")show(cur+1) });
+
+/* 倒數 */
+const target = new Date(CONFIG.eventISO).getTime();
+(function tick(){
+  let s=Math.max(0,Math.floor((target-Date.now())/1000));
+  const d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);
+  $("#countdown").textContent = `${d} 天 ${h} 時 ${m} 分 ${s%60} 秒`;
+  setTimeout(tick,1000);
+})();
+
+/* 月曆（週一開頭） */
+(function(){
+  const {y,m,day}=CONFIG.calendar, first=(new Date(y,m-1,1).getDay()+6)%7, days=new Date(y,m,0).getDate();
+  let h=`<div class="mo">${y}年${m}月</div><div class="grid">`+["一","二","三","四","五","六","日"].map(d=>`<div class="dow">${d}</div>`).join("");
+  for(let i=0;i<first;i++)h+=`<div class="d"></div>`;
+  for(let d=1;d<=days;d++)h+= d===day?`<div class="d on"><span>${d}</span></div>`:`<div class="d">${d}</div>`;
+  $("#cal").innerHTML=h+"</div>";
+  const c=CONFIG.calendar;
+  $("#gcal").href=`https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(c.title)}&dates=${c.startUTC}/${c.endUTC}&ctz=Asia/Taipei&location=${encodeURIComponent(c.location)}`;
+})();
+
+/* 流程 */
+
+
+</script>
+
+
+</body></html>
