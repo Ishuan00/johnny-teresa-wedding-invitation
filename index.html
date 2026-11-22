@@ -599,7 +599,7 @@ const REV = CONFIG.reveal || {};
 function markReveal() {
   if (!REV.enabled) return;
   const inv = document.getElementById("invite");
-  const units = ".cal,form,#wishes,iframe.map,.divider,.colors > i,.tcard,.deco,.dorn,.logo,.sincerely";
+  const units = ".cal,form,#wishes,iframe.map,.divider,.colors > i,.tcard,.deco,.dorn,.logo,.sincerely,.dateblock .vr";
   const T = REV.title || {}, M = REV.main || {};
   inv.querySelectorAll("*").forEach(el => {
     if (el.closest(".win,#stage,#petals,#lightbox,.float")) return;
@@ -624,7 +624,12 @@ function startReveal() {
       .forEach((e, i) => { e.target.style.transitionDelay = Math.min(i * (REV.stagger ?? 150), 1500) + "ms"; e.target.classList.add("rv-in"); io.unobserve(e.target) });
   }, { rootMargin: "0px 0px -6% 0px", threshold: 0.15 });
   const early = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("rv-in"); early.unobserve(e.target) } }), { rootMargin: "0px", threshold: 0 });
-  els.forEach(el => (el.classList.contains("deco") ? early : io).observe(el));   // 花朵裝飾：一碰到畫面下緣就先浮現，比時間軸、文字都早
+  const lagged = el => {   // data-after：等指定的元素（例如時間軸第一行）浮現後，再晚 data-lag 毫秒才浮現；data-lag 越大越晚
+    const ref = el.dataset.after && document.querySelector(el.dataset.after); if (!ref) return false;
+    const go = () => setTimeout(() => el.classList.add("rv-in"), parseFloat(el.dataset.lag) || 400);
+    if (ref.classList.contains("rv-in")) go(); else new MutationObserver((m, ob) => { if (ref.classList.contains("rv-in")) { ob.disconnect(); go() } }).observe(ref, { attributes: true, attributeFilter: ["class"] });
+    return true };
+  els.forEach(el => { if (el.classList.contains("deco")) { if (!lagged(el)) early.observe(el) } else io.observe(el) });   // 花朵裝飾：一碰到畫面下緣就先浮現，比時間軸、文字都早
 }
 markReveal();
 function show(i){ cur=(i+G.length)%G.length; $("#lb-img").src=G[cur]; $("#lb-count").textContent=`${cur+1} / ${G.length}`; $("#lightbox").classList.add("show") }
